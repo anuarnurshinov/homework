@@ -1,22 +1,49 @@
 'use strict'
 
-let title = prompt("Как называется ваш проект?", 'КальКуляТор');
-let screens = prompt("Какие типы экранов нужно разработать?", "Простой, сложный");
-let screenPrice = +prompt("Сколько будет стоить данная работа?", "1000 рублей")
-let adaptive = confirm("Нужен ли адаптив на сайте?");
+let title
+let screens
+let screenPrice
+let adaptive
 
-let service1 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера')
-let servicePrice1 = +prompt("Сколько это будет стоить?", "1000 рублей")
-let service2 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера')
-let servicePrice2 = +prompt("Сколько это будет стоить?", "1000 рублей")
+let service1
+let servicePrice1
+let service2
+let servicePrice2
 
 let rollback = 15
 let allServicePrices
 let fullPrice
 let servicePercentPrice
 
+const asking = function () {
+    title = prompt("Как называется ваш проект?", 'КальКуляТор');
+
+    screens = prompt("Какие типы экранов нужно разработать?", "Простой, сложный");
+
+    do {
+        screenPrice = +prompt("Сколько будет стоить данная работа?", "1000 рублей");
+    } while (!isNumber(screenPrice));
+
+    adaptive = confirm("Нужен ли адаптив на сайте?");
+
+    service1 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
+
+    servicePrice1 = +prompt("Сколько это будет стоить?", "1000 рублей");
+
+    service2 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
+
+    servicePrice2 = +prompt("Сколько это будет стоить?", "1000 рублей");
+
+}
+const isNumber = function (num) {
+    return !isNaN(parseFloat(num)) && isFinite(num)
+}
+
 const getAllServicePrices = function () {
-    return servicePrice1 + servicePrice2
+    if (!isNumber(servicePrice1 && isNumber(servicePrice2))) {
+        return servicePrice1 + servicePrice2
+    }
+    return ("Что то пошло не так")
 }
 
 const getFullPrice = function () {
@@ -50,7 +77,7 @@ switch (true) {
     default:
         break;
 }
-
+asking()
 allServicePrices = getAllServicePrices()
 fullPrice = getFullPrice()
 servicePercentPrice = getServicePercentPrice()
@@ -63,3 +90,4 @@ console.log(screens);
 console.log('Процент отката посреднику за работу - ' + getServicePercentPrice())
 console.log('Стоимость верстки экранов ', screenPrice, ' рублей');
 console.log('Стоимость разработки сайта', fullPrice, ' рублей');
+
