@@ -36,7 +36,7 @@ const asking = function () {
 
 }
 const isNumber = function (num) {
-    return !isNaN(parseFloat(num)) && isFinite(num)
+    return !isNaN(parseFloat(num)) && isFinite(num) && !(num.toString().length >= num.toString().trim().length)
 }
 
 const getAllServicePrices = function () {
