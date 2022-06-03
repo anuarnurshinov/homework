@@ -21,33 +21,35 @@ const asking = function () {
     screens = prompt("Какие типы экранов нужно разработать?", "Простой, сложный");
 
     do {
-        screenPrice = +prompt("Сколько будет стоить данная работа?", "1000 рублей");
+        screenPrice = prompt("Сколько будет стоить данная работа?", "1000 рублей");
     } while (!isNumber(screenPrice));
 
     adaptive = confirm("Нужен ли адаптив на сайте?");
 
     service1 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
 
-    servicePrice1 = +prompt("Сколько это будет стоить?", "1000 рублей");
+    servicePrice1 = prompt("Сколько это будет стоить?", "1000 рублей");
 
     service2 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
 
-    servicePrice2 = +prompt("Сколько это будет стоить?", "1000 рублей");
+    servicePrice2 = prompt("Сколько это будет стоить?", "1000 рублей");
 
 }
 const isNumber = function (num) {
-    return !isNaN(parseFloat(num)) && isFinite(num) && !(num.toString().length >= num.toString().trim().length)
+    return (!isNaN(parseFloat(num)))
+        && isFinite(num)
+        && !(num.length > num.trim().length)
 }
 
 const getAllServicePrices = function () {
-    if (!isNumber(servicePrice1 && isNumber(servicePrice2))) {
-        return servicePrice1 + servicePrice2
+    if (isNumber(servicePrice1) && isNumber(servicePrice2)) {
+        return (+servicePrice1) + (+servicePrice2)
     }
-    return ("Что то пошло не так")
+    else ("Что то пошло не так")
 }
 
 const getFullPrice = function () {
-    return screenPrice + allServicePrices
+    return (+screenPrice) + allServicePrices
 }
 
 const getTitle = function () {
@@ -82,6 +84,12 @@ allServicePrices = getAllServicePrices()
 fullPrice = getFullPrice()
 servicePercentPrice = getServicePercentPrice()
 title = getTitle()
+
+
+console.log(typeof screenPrice);
+console.log(typeof allServicePrices);
+console.log(typeof servicePrice1);
+console.log(typeof servicePrice2);
 
 console.log(typeof title);
 console.log(typeof fullPrice);
