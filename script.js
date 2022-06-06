@@ -24,18 +24,18 @@ functionObj = {
         screens = prompt("Какие типы экранов нужно разработать?", "Простой, сложный");
 
         do {
-            screenPrice = prompt("Сколько будет стоить данная работа?", "1000 рублей");
+            screenPrice = prompt("Сколько будет стоить данная работа?", "1000");
         } while (!functionObj.isNumber(screenPrice));
 
         adaptive = confirm("Нужен ли адаптив на сайте?");
 
         service1 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
 
-        servicePrice1 = prompt("Сколько это будет стоить?", "1000 рублей");
+        servicePrice1 = prompt("Сколько это будет стоить?", "1000");
 
         service2 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
 
-        servicePrice2 = prompt("Сколько это будет стоить?", "1000 рублей");
+        servicePrice2 = prompt("Сколько это будет стоить?", "1000");
 
         allServicePrices = functionObj.getAllServicePrices()
         fullPrice = functionObj.getFullPrice()
