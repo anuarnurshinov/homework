@@ -15,54 +15,75 @@ let allServicePrices
 let fullPrice
 let servicePercentPrice
 
-const asking = function () {
-    title = prompt("Как называется ваш проект?", 'КальКуляТор');
+let functionObj
 
-    screens = prompt("Какие типы экранов нужно разработать?", "Простой, сложный");
+functionObj = {
+    start: function () {
+        title = prompt("Как называется ваш проект?", 'КальКуляТор');
 
-    do {
-        screenPrice = prompt("Сколько будет стоить данная работа?", "1000 рублей");
-    } while (!isNumber(screenPrice));
+        screens = prompt("Какие типы экранов нужно разработать?", "Простой, сложный");
 
-    adaptive = confirm("Нужен ли адаптив на сайте?");
+        do {
+            screenPrice = prompt("Сколько будет стоить данная работа?", "1000 рублей");
+        } while (!functionObj.isNumber(screenPrice));
 
-    service1 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
+        adaptive = confirm("Нужен ли адаптив на сайте?");
 
-    servicePrice1 = prompt("Сколько это будет стоить?", "1000 рублей");
+        service1 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
 
-    service2 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
+        servicePrice1 = prompt("Сколько это будет стоить?", "1000 рублей");
 
-    servicePrice2 = prompt("Сколько это будет стоить?", "1000 рублей");
+        service2 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
 
-}
-const isNumber = function (num) {
-    return (!isNaN(parseFloat(num)))
-        && isFinite(num)
-        && !(num.length > num.trim().length)
-}
+        servicePrice2 = prompt("Сколько это будет стоить?", "1000 рублей");
 
-const getAllServicePrices = function () {
-    if (isNumber(servicePrice1) && isNumber(servicePrice2)) {
-        return (+servicePrice1) + (+servicePrice2)
+        allServicePrices = functionObj.getAllServicePrices()
+        fullPrice = functionObj.getFullPrice()
+        servicePercentPrice = functionObj.getServicePercentPrice()
+        title = functionObj.getTitle()
+        functionObj.logger()
+
+    },
+    isNumber: function (num) {
+        return (!isNaN(parseFloat(num)))
+            && isFinite(num)
+            && !(num.length > num.trim().length)
+    },
+    getAllServicePrices: function () {
+        if (functionObj.isNumber(servicePrice1) && functionObj.isNumber(servicePrice2)) {
+            return (+servicePrice1) + (+servicePrice2)
+        }
+        else ("Что то пошло не так")
+    },
+    getFullPrice: function () {
+        return (+screenPrice) + allServicePrices
+    },
+    getTitle: function () {
+        title.replace(/\s/g, '');
+        return title[0].toUpperCase() + title.slice(1).toLowerCase()
+    },
+    getServicePercentPrice: function () {
+        return Math.ceil(fullPrice - (fullPrice * (rollback / 100)))
+    },
+    logger: function () {
+        console.log(typeof screenPrice);
+        console.log(typeof allServicePrices);
+        console.log(typeof servicePrice1);
+        console.log(typeof servicePrice2);
+
+        console.log(typeof title);
+        console.log(typeof fullPrice);
+        console.log(typeof adaptive);
+        console.log(screens);
+        console.log('Процент отката посреднику за работу - ' + functionObj.getServicePercentPrice())
+        console.log('Стоимость верстки экранов ', screenPrice, ' рублей');
+        console.log('Стоимость разработки сайта', fullPrice, ' рублей');
+
+        for (const key in functionObj) {
+            console.log(key)
+        }
     }
-    else ("Что то пошло не так")
 }
-
-const getFullPrice = function () {
-    return (+screenPrice) + allServicePrices
-}
-
-const getTitle = function () {
-    title.replace(/\s/g, '');
-    return title[0].toUpperCase() + title.slice(1).toLowerCase()
-}
-
-const getServicePercentPrice = function () {
-    return Math.ceil(fullPrice - (fullPrice * (rollback / 100)))
-}
-
-
-
 switch (true) {
     case (fullPrice >= 30000):
         console.log("Даем скидку в 10 %")
@@ -79,25 +100,10 @@ switch (true) {
     default:
         break;
 }
-asking()
-allServicePrices = getAllServicePrices()
-fullPrice = getFullPrice()
-servicePercentPrice = getServicePercentPrice()
-title = getTitle()
+functionObj.start()
 
 
-console.log(typeof screenPrice);
-console.log(typeof allServicePrices);
-console.log(typeof servicePrice1);
-console.log(typeof servicePrice2);
 
-console.log(typeof title);
-console.log(typeof fullPrice);
-console.log(typeof adaptive);
-console.log(screens);
-console.log('Процент отката посреднику за работу - ' + getServicePercentPrice())
-console.log('Стоимость верстки экранов ', screenPrice, ' рублей');
-console.log('Стоимость разработки сайта', fullPrice, ' рублей');
 
 
 
