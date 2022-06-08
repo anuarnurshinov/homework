@@ -1,106 +1,129 @@
 'use strict'
 
 let title
-let screens
-let screenPrice
+let screens = []
+let screenPrice = 0
 let adaptive
 
-let service1
-let servicePrice1
-let service2
-let servicePrice2
+let services = {}
 
 let rollback = 15
-let allServicePrices
-let fullPrice
-let servicePercentPrice
+let allServicePrices = 0
+let fullPrice = 0
+let servicePercentPrice = 0
 
-let functionObj
 
-functionObj = {
+const appData = {
     start: function () {
-        title = prompt("Как называется ваш проект?", 'КальКуляТор');
 
-        screens = prompt("Какие типы экранов нужно разработать?", "Простой, сложный");
 
+        appData.asking()
+        appData.getAllServicePrices()
+        appData.getFullPrice()
+        appData.getServicePercentPrice()
+        appData.getTitle()
+        appData.logger()
+        appData.switch()
+
+    },
+    asking: function () {
         do {
-            screenPrice = prompt("Сколько будет стоить данная работа?", "1000");
-        } while (!functionObj.isNumber(screenPrice));
+            title = prompt("Как назвывается ваш проект", "Калькулятор верстки");
+        } while (appData.isString(title));
+        for (let i = 0; i < 2; i++) {
+            let name
+            let price
+            do {
+                name = prompt("Какие типы экранов нужно разработать?", "Простой, сложный");;
+            } while (appData.isString(name));
+            do {
+                price = prompt("Сколько будет стоить данная работа?", "1000");
+            } while (!appData.isNumber(price));
+            screens.push({ id: i, name: name, price: price, })
+        }
+        for (let screen of screens) {
+            screenPrice += +screen.price
+        }
 
+
+        for (let i = 0; i < 2; i++) {
+            let name
+            do {
+                name = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера')
+            } while (appData.isString(name));
+            let price
+            do {
+                price = prompt("Сколько это будет стоить?", "1000");
+            } while (!appData.isNumber(price));
+            services[name] = price
+        }
         adaptive = confirm("Нужен ли адаптив на сайте?");
-
-        service1 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
-
-        servicePrice1 = prompt("Сколько это будет стоить?", "1000");
-
-        service2 = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера');
-
-        servicePrice2 = prompt("Сколько это будет стоить?", "1000");
-
-        allServicePrices = functionObj.getAllServicePrices()
-        fullPrice = functionObj.getFullPrice()
-        servicePercentPrice = functionObj.getServicePercentPrice()
-        title = functionObj.getTitle()
-        functionObj.logger()
-
     },
     isNumber: function (num) {
         return (!isNaN(parseFloat(num)))
             && isFinite(num)
             && !(num.length > num.trim().length)
     },
+    isString: function (str) {
+        return (!isNaN(parseFloat(str)))
+            && isFinite(str)
+            && !(str.length > str.trim().length)
+    },
     getAllServicePrices: function () {
-        if (functionObj.isNumber(servicePrice1) && functionObj.isNumber(servicePrice2)) {
-            return (+servicePrice1) + (+servicePrice2)
+        for (let key in services) {
+            allServicePrices += +services[key]
         }
-        else ("Что то пошло не так")
     },
     getFullPrice: function () {
-        return (+screenPrice) + allServicePrices
+        fullPrice = (+screenPrice) + (+allServicePrices)
     },
     getTitle: function () {
         title.replace(/\s/g, '');
-        return title[0].toUpperCase() + title.slice(1).toLowerCase()
+        title = title[0].toUpperCase() + title.slice(1).toLowerCase()
     },
     getServicePercentPrice: function () {
-        return Math.ceil(fullPrice - (fullPrice * (rollback / 100)))
+        servicePercentPrice = Math.ceil(fullPrice - (fullPrice * (rollback / 100)))
     },
     logger: function () {
-        console.log(typeof screenPrice);
-        console.log(typeof allServicePrices);
+        console.log(screenPrice);
+        console.log(allServicePrices);
         console.log(typeof servicePrice1);
         console.log(typeof servicePrice2);
 
         console.log(typeof title);
-        console.log(typeof fullPrice);
+        console.log(servicePercentPrice);
         console.log(typeof adaptive);
         console.log(screens);
-        console.log('Процент отката посреднику за работу - ' + functionObj.getServicePercentPrice())
+        console.log('Процент отката посреднику за работу - ' + servicePercentPrice)
         console.log('Стоимость верстки экранов ', screenPrice, ' рублей');
         console.log('Стоимость разработки сайта', fullPrice, ' рублей');
 
-        for (const key in functionObj) {
+        for (const key in appData) {
             console.log(key)
+        }
+
+    },
+    switch: function () {
+        switch (true) {
+            case (fullPrice >= 30000):
+                console.log("Даем скидку в 10 %")
+                break;
+            case (fullPrice >= 15000 && fullPrice < 30000):
+                console.log("Даем скидку в 5 %")
+                break;
+            case (fullPrice > 0 && fullPrice < 15000):
+                console.log("Скидка не предусмотрена")
+                break;
+            case (fullPrice <= 0):
+                console.log("Что то пошло не так")
+                break;
+            default:
+                break;
         }
     }
 }
-switch (true) {
-    case (fullPrice >= 30000):
-        console.log("Даем скидку в 10 %")
-        break;
-    case (fullPrice >= 15000 && fullPrice < 30000):
-        console.log("Даем скидку в 5 %")
-        break;
-    case (fullPrice > 0 && fullPrice < 15000):
-        console.log("Скидка не предусмотрена")
-        break;
-    case (fullPrice <= 0):
-        console.log("Что то пошло не так")
-        break;
-    default:
-        break;
-}
-functionObj.start()
+
+appData.start()
 
 
 
