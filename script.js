@@ -18,7 +18,7 @@ const appData = {
 
 
         appData.asking()
-        appData.getAllServicePrices()
+        appData.addPrices()
         appData.getFullPrice()
         appData.getServicePercentPrice()
         appData.getTitle()
@@ -29,35 +29,39 @@ const appData = {
     asking: function () {
         do {
             title = prompt("Как назвывается ваш проект", "Калькулятор верстки");
-        } while (appData.isString(title));
+        } while (!appData.isString(title));
         for (let i = 0; i < 2; i++) {
             let name
             let price
             do {
                 name = prompt("Какие типы экранов нужно разработать?", "Простой, сложный");;
-            } while (appData.isString(name));
+            } while (!appData.isString(name));
             do {
                 price = prompt("Сколько будет стоить данная работа?", "1000");
             } while (!appData.isNumber(price));
             screens.push({ id: i, name: name, price: price, })
         }
-        for (let screen of screens) {
-            screenPrice += +screen.price
-        }
-
 
         for (let i = 0; i < 2; i++) {
             let name
             do {
                 name = prompt('Какой дополнительный тип услуги нужен?', 'Создание слайдера')
-            } while (appData.isString(name));
+            } while (!appData.isString(name));
             let price
             do {
                 price = prompt("Сколько это будет стоить?", "1000");
             } while (!appData.isNumber(price));
-            services[name] = price
+            services[name + " № " + i] = price
         }
         adaptive = confirm("Нужен ли адаптив на сайте?");
+    },
+    addPrices: function () {
+        screenPrice = screens.reduce(function (sum, current) {
+            return sum + +current.price
+        }, 0)
+        for (let key in services) {
+            allServicePrices += +services[key]
+        }
     },
     isNumber: function (num) {
         return (!isNaN(parseFloat(num)))
@@ -65,14 +69,8 @@ const appData = {
             && !(num.length > num.trim().length)
     },
     isString: function (str) {
-        return (!isNaN(parseFloat(str)))
-            && isFinite(str)
+        return (isNaN(str))
             && !(str.length > str.trim().length)
-    },
-    getAllServicePrices: function () {
-        for (let key in services) {
-            allServicePrices += +services[key]
-        }
     },
     getFullPrice: function () {
         fullPrice = (+screenPrice) + (+allServicePrices)
@@ -85,22 +83,24 @@ const appData = {
         servicePercentPrice = Math.ceil(fullPrice - (fullPrice * (rollback / 100)))
     },
     logger: function () {
-        console.log(screenPrice);
-        console.log(allServicePrices);
-        console.log(typeof servicePrice1);
-        console.log(typeof servicePrice2);
+        // console.log(screenPrice);
+        // console.log(allServicePrices);
+        // console.log(typeof servicePrice1);
+        // console.log(typeof servicePrice2);
 
-        console.log(typeof title);
-        console.log(servicePercentPrice);
-        console.log(typeof adaptive);
-        console.log(screens);
+        // console.log(typeof title);
+        // console.log(servicePercentPrice);
+        // console.log(typeof adaptive);
+        // console.log(screens);
         console.log('Процент отката посреднику за работу - ' + servicePercentPrice)
-        console.log('Стоимость верстки экранов ', screenPrice, ' рублей');
+        // console.log('Стоимость верстки экранов ', screenPrice, ' рублей');
         console.log('Стоимость разработки сайта', fullPrice, ' рублей');
 
-        for (const key in appData) {
-            console.log(key)
-        }
+        // for (const key in appData) {
+        //     console.log(key)
+        // }
+        console.log(services);
+        console.log(screenPrice);
 
     },
     switch: function () {
