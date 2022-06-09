@@ -12,6 +12,16 @@ let allServicePrices = 0
 let fullPrice = 0
 let servicePercentPrice = 0
 
+let mainHeader = document.getElementsByTagName("h1")[0]
+let heandlerBtn1 = document.getElementsByClassName("handler_btn")[0]
+let heandlerBtn2 = document.getElementsByClassName("handler_btn")[1]
+let screenBtn = document.querySelector(".screen-btn");
+let otherItemsPercent = document.querySelectorAll(".percent.other-items ")
+let otherItemsNumber = document.querySelectorAll(".number.other-items")
+let inputRange = document.querySelector(".rollback>input")
+let span = document.querySelector(".rollback>span")
+let inputs = document.getElementsByClassName("total-input")
+let screensBlocks = document.querySelectorAll("screen")
 
 const appData = {
     start: function () {
@@ -123,7 +133,7 @@ const appData = {
     }
 }
 
-appData.start()
+// appData.start()
 
 
 
